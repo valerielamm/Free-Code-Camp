@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Build a Survey Form</title>
+    <meta name="keywords" content="HTML,CSS, JavaScript">
+    <meta name="author" content="Valerie Lamm">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <link rel="stylesheet" type="text/css" href="style.css">-->
+</head>
+    
+<body>
+
+    <main id="main">
+        <section id="survey">
+
+            <h1 id="title">Opinion Survey</h1>
+            <p id="description">A survey to gather information about our users.</p>
+
+            <form id="survey-form" method="get">
+                <div class="questionTab"> <!--name-->
+
+                    <label class="left" id="name-label" for="name">Name</label>
+                    <input id="name" class="right" autofocus name="name" placeholder="Enter your name." required>
+                </div>
+                <div class="questionTab"> <!--email-->
+                    <label class="left" id="email-label" for="email">Email</label>
+                    <input id="email" type="email" class="right" name="email" placeholder="Enter your Email." required>
+                </div>
+                <div class="questionTab"> <!--number-->
+                    <label class="left" id="number-label" for="number">Favorite number (1-100)</label>
+                    <input id="number" type="number" min="1" max="100" class="right" name="number" placeholder="Enter your favorite number." required>
+                </div>
+                <div class="questionTab"> <!--animal-->
+                    <label class="left" id="animal-label" for="animal">Favorite animal from the list</label>
+                    <select id="dropdown" class="right" name="animal">
+                        <option disabled value>Select favorite animal.</option>
+                        <option value="bear">Bear</option>
+                        <option value="tiger">Tiger</option>
+                        <option value="dog">Dog</option>
+                    </select>
+                </div>
+                <div class="questionTab"> <!--color-->
+                    <label class="left" id="color-label" for="color">Favorite color</label>
+                    <ul class="right">
+                        <li class="radio"><label>Red<input value="red" type="radio" class="color" name="color"></label></li>
+                        <li class="radio"><label>Orange<input value="orange" type="radio" class="color" name="color"></label></li>
+                        <li class="radio"><label>Black<input value="black" type="radio" class="color" name="color"></label></li>
+                    </ul>
+                </div>
+                <div class="questionTab"> <!--plant-->
+                    <label class="left" id="plant-label" for="plant">Favorite plants (check any you like)</label>
+                    <ul class="right">
+                        <li class="checkbox"><label>Aloe Vera<input value="aloe" type="checkbox" class="plant" name="plant"></label></li>
+                        <li class="checkbox"><label>Oak Tree<input value="oak" type="checkbox" class="plant" name="plant"></label></li>
+                        <li class="checkbox"><label>Rose Bush<input value="rose" type="checkbox" class="plant" name="plant"></label></li>
+                    </ul>
+                </div>
+                <div class="questionTab"> <!--comments-->
+                    <label class="comments" id="comments-label" for="comments">Comments</label>
+                    <textarea type="comments" class="right" name="comments" placeholder="Enter additional comments." style="height:50px;resize:vertical;"></textarea>
+                </div>
+                <button id="submit" type="submit">Submit</button>
+            </form>
+            
+        </section>
+    </main>
+</body>
+</html>
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
