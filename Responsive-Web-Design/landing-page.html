@@ -1,4 +1,110 @@
 <!DOCTYPE html>
+<style>
+    body{
+      padding:0;
+      margin:0;
+      margin-bottom:10em;
+    }
+    #nav-bar{
+      position:absolute;
+      display:block;
+      right:0;
+      top:0;
+    }
+    .li-nav-link{
+      display: inline-block;
+      padding:.5em 1em;
+      margin: 0 .5em;
+      font-family: arial, sans-serif;
+    }
+    .nav-link {
+      text-decoration: none;
+      color:black;
+    }
+    #header{
+      position:fixed;
+      background:white;
+      border-bottom: #F5BB12 5px solid;
+      box-shadow:0px 0px 20px rgba(0,0,0,.2), 0px 0px 4px rgba(0,0,0,.2);
+      top:0;
+      left:0;
+      right:0;
+      height:4em;
+    }
+    #header-img{
+      position:relative;
+      display:block;
+      max-height:3em;
+      padding:.5em;
+    }
+    #intro{
+      padding-top:8em;
+      text-align:center;
+      background: ;
+      margin: auto;
+    }
+    #pictures{
+      display:flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content:center;
+      align-content:center;
+      max-width:65%;
+      margin:auto;
+
+    }
+    #pictures img{
+      height:10em;
+      width: auto;
+      padding: .5em;
+      box-shadow: 0 0 10px rgba(0,0,0,.2), 0px 0px 4px rgba(0,0,0,.2);
+      margin: 1%;
+    }
+    iframe{
+      padding: .5em;
+      box-shadow: 0 0 10px rgba(0,0,0,.2), 0px 0px 4px rgba(0,0,0,.2);
+    }
+    h1{
+      color: #111111;
+      font-family: Arial, sans-serif;
+      font-weight: 800;
+    }
+    i{color: #3d3d3d;}
+    iframe{margin:2em;}
+    #subscribe{
+      display: block;
+      text-align:center;
+      width: 100%;
+      margin:0 auto;
+      position:relative;
+      align-items: center;
+    }
+    #submit { 
+      background: #F5BB12; 
+      border:none; 
+      border-radius:.5em; 
+      padding: .5em 1em;
+      display: block;
+      position:relative;
+      width: auto;
+      margin:auto;
+    }
+    #email{
+      position:relative;
+      display: block;
+      border-radius: 1em;
+      padding: .5em 1em;
+      margin: 4em auto 2em auto;
+    }
+    @media (max-width: 1000px) { 
+      #pictures{max-width:80%}
+    }
+    @media (max-width: 600px) { 
+      iframe{width:280px !important; height: 157px !important;}
+      #pictures{max-width:90%}
+    }
+</style>
+
 <html>
 <head>
     <title>Build A Product Landing Page</title>
