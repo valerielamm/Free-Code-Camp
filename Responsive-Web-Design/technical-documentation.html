@@ -1,9 +1,41 @@
 <!DOCTYPE html>
 <style>
-/*    
-    My Technical Documentation page should use at least one media query.
-    id="navbar" should be shown on the left side of the screen and should always be visible to the user.
-*/
+    #navbar {
+      top: 0px;
+      left: 0px;
+      height: 100%;
+      position: fixed;
+      min-width: 200px;
+      border-right: solid 2px rgba(0, 22, 22, 0.4);
+         background: white;
+    }
+    #navbar header{margin: 4em 0 1.5em 1.25em; font-size: 1.5em;}
+    #navbar ul li a{text-decoration: none;}
+    #navbar ul li{list-style: none; margin-bottom: 1em;}
+    #navbar ul{padding-left: 0; margin-left:2em;}
+    #main-doc{
+        padding-left: 250px;
+        padding-top: 6em;
+        padding-right:10%;
+        background: white;
+    }
+    body{margin:0;}
+    code{
+        background: #d6d6d6;
+        padding:.5em 1.5em;
+        margin:2em 0;
+        position: relative;
+    }
+    header{
+        position: relative;
+    }
+    section{
+        margin-bottom: 5em;
+    }
+    ol{margin-bottom: 2em;}
+    @media(max-width : 1000px){
+        #main-doc{background: #ebebeb;}
+    }
 </style>
 
 <html>
@@ -16,17 +48,17 @@
 </head>
 
 <body>
+<nav id="navbar">
+    <header>Template.023</header>
+    <ul>
+        <li><a class="nav-link" href="#About">About</a></li>
+        <li><a class="nav-link" href="#Getting_Started">Getting Started</a></li>
+        <li><a class="nav-link" href="#Possible_Alterations">Possible Alterations</a></li>
+        <li><a class="nav-link" href="#Downloading">Downloading</a></li>
+        <li><a class="nav-link" href="#Conclusion">Conclusion</a></li>
+    </ul>
+</nav>
 <main id="main-doc"> 
-    <nav id="navbar">
-        <header>Neat Program</header>
-        <ul>
-            <li><a class="nav-link" href="#About">About</a></li>
-            <li><a class="nav-link" href="#Getting_Started">Getting Started</a></li>
-            <li><a class="nav-link" href="#Possible_Alterations">Possible Alterations</a></li>
-            <li><a class="nav-link" href="#Downloading">Downloading</a></li>
-            <li><a class="nav-link" href="#Conclusion">Conclusion</a></li>
-        </ul>
-    </nav>
     <section class="main-section" id="About">
         <header>About</header>
         <p>
