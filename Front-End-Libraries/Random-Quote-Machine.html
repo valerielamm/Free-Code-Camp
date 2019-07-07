@@ -17,6 +17,67 @@ Requirements
 
 -->
 
+<head>
 <!--FreeCodeCamp Test/Check Script-->
 <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+<script src="http://quotesondesign.com/api/3.0/api-3.0.js" type="text/javascript" charset="utf-8"></script>
+</head>
 
+<script>
+    function getQuotes(){
+        var url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes/1';
+
+        fetch(url)
+          .then(function(response){
+            return response.json();
+          })
+          .then(function(response){
+            addQuoteMarkup(response);
+          })
+          .catch(function(){
+            console.log('error');
+          });
+
+        var addQuoteMarkup = function(quotes) {
+          var quoteMarkup = `${quotes
+                .map(function(quote){
+                  return `${quote}`
+                })}`;
+
+          var quoteDiv = document.getElementById('text');
+          quoteDiv.innerHTML = quoteMarkup;
+          document.getElementById('author').innerHTML = "Ron Swanson";
+        };
+    }
+    getQuotes();
+    
+</script>
+<style>
+    body{
+        background-color: #d8dad7;
+    }
+    #quote-box{
+        border-radius: 1em;
+        padding:3em;
+        background-color: ghostwhite;
+        box-shadow: 4px 4px 20px rgba(0,0,0,.2), 2px 2px 2px rgba(0,0,0,.1);
+        display: block;
+        width:35%;
+        align-content: center;
+        margin:0 auto;
+        margin-top:4em;
+    }
+    #text{
+        min-height: 7em;
+    }
+</style>
+
+
+<wrapper id="quote-box">
+    <div id="text"></div>
+    <div id="author"></div>
+    <div id="bottom-buttons">
+        <button id="new-quote" onClick="getQuotes()"></button>
+        <a target="_blank" title="tweet me" id="tweet-quote"><button>Twitter</button></a>
+    </div>
+</wrapper>
