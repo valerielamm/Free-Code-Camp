@@ -27,50 +27,54 @@ Requirements
     
     //Getting Quotes
     function getQuotes(){
-        var url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes/1';
-				var ron = "Ron Swanson";
+        var url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes/1'; // API
         fetch(url)
           .then(function(response){
-            return response.json();
+            return response.json(); // Convert API Quote to JSON
           })
           .then(function(response){
-            addQuoteMarkup(response);
+            addQuoteMarkup(response); // Send quote
           })
           .then(function(){
-            fixAuthor();
+            fixAuthor();    // Fix author (freecodecamp test patch)
           })
           .catch(function(){
             console.log('error');
           });
 
-        var addQuoteMarkup = function(quotes) {
-          var quoteMarkup = `${quotes
-                .map(function(quote){
-                  return `${quote}`
-                })}`;
+        var addQuoteMarkup = function(quotes) { 
+          var quoteMarkup =       // Var contains quote
+              `${quotes.map(
+                  function(quote){
+                    return `${quote}`
+                  }   
+              )}`;
 
-          var quoteDiv = document.getElementById('text');
-          quoteDiv.innerHTML = quoteMarkup;
-          document.getElementById('author').innerHTML = quoteMarkup;
-          quote = quoteMarkup;//Twitter
+          var quoteDiv = document.getElementById('text'); // Select quote div
+          quoteDiv.innerHTML = quoteMarkup;               // Insert quote in div
+            
+          // Insert quote in author div for freecodecamp test to pass (gets hidden)
+          document.getElementById('author').innerHTML = quoteMarkup; 
+            
+          quote = quoteMarkup;// Twitter url variable
         }
-       //the test wants for the author to be from the api
-       //these quotes are all from the same author 
-       //and the api doesn't provide his name
-       //so i passed the quote into the author div,
-       //hid it, and then displayed a new div with 
-       //the author's name
-       //this is just to pass the freecodecamp test requirements
+       /*
+       The test wants for the author to be from the api.
+       These quotes are all from the same author 
+       and the api doesn't provide his name,
+       so i passed the quote into the author div,
+       hid it, and then displayed a new div with the author's name.
+       This is just to pass the freecodecamp test requirements.
+       */
        var fixAuthor = function(){
-       	document.getElementById('author').style.display = "none";
-       	document.getElementById('authorTwo').innerHTML = "- Ron Swanson";
-        document.getElementById('tweet-quote').href = 'https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text='+ quote + " -Ron Swanson", '_blank';//Twitter
+       	document.getElementById('author').style.display = "none"; // Hidden author div
+       	document.getElementById('authorTwo').innerHTML = "- Ron Swanson"; // Author name displayed
+        document.getElementById('tweet-quote').href = 'https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text='+ quote + " - Ron Swanson", '_blank';// Tweet it
        }
     }
-    getQuotes();
+    getQuotes(); // Grab quote on page load
     
-    //Twitter
-    var quote = document.getElementById('text').innerHTML;//Twitter
+    var quote = document.getElementById('text').innerHTML; //Twitter url initialize
 
     
     
@@ -114,7 +118,7 @@ Requirements
 
 <wrapper id="quote-box">
     <div id="text"></div>
-    <div id="author"></div>
+    <div id="author"></div> <!--Hidden author for passing test-->
     <div id="authorTwo"></div>
     <div id="bottom-buttons">
         <button class="button" id="new-quote" onClick="getQuotes()">New Quote</button>
