@@ -24,6 +24,8 @@ Requirements
 </head>
 
 <script>
+    
+    //Getting Quotes
     function getQuotes(){
         var url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes/1';
 				var ron = "Ron Swanson";
@@ -50,6 +52,7 @@ Requirements
           var quoteDiv = document.getElementById('text');
           quoteDiv.innerHTML = quoteMarkup;
           document.getElementById('author').innerHTML = quoteMarkup;
+          quote = quoteMarkup;//Twitter
         }
        //the test wants for the author to be from the api
        //these quotes are all from the same author 
@@ -60,10 +63,15 @@ Requirements
        //this is just to pass the freecodecamp test requirements
        var fixAuthor = function(){
        	document.getElementById('author').style.display = "none";
-       	document.getElementById('authorTwo').innerHTML = "Ron Swanson";
+       	document.getElementById('authorTwo').innerHTML = "- Ron Swanson";
+        document.getElementById('tweet-quote').href = 'https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text='+ quote + " -Ron Swanson", '_blank';//Twitter
        }
     }
     getQuotes();
+    
+    //Twitter
+    var quote = document.getElementById('text').innerHTML;//Twitter
+
     
     
 </script>
@@ -110,7 +118,7 @@ Requirements
     <div id="authorTwo"></div>
     <div id="bottom-buttons">
         <button class="button" id="new-quote" onClick="getQuotes()">New Quote</button>
-        <a class="button" target="_blank" title="tweet me" id="tweet-quote">
+        <a class="button" target="_blank" title="tweet me" id="tweet-quote" href="https://twitter.com/intent/tweet" target="_blank">
           <button id="tweet-button">Tweet</button>
         </a>
     </div>
