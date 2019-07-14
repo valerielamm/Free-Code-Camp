@@ -35,7 +35,7 @@ Formula/Expression Logic: 32.5
 
 <script>
     
-    // Component - Keypad
+    // Component - Keypad has buttons for user to press
     class Keypad extends React.Component{
         constructor(props) {
             super(props);
@@ -67,17 +67,26 @@ Formula/Expression Logic: 32.5
         }
     }
     
+    // Component - DisplaysScreen shows what is typed in and calculated
+    class DisplayScreen extends React.Component {
+      render () {
+        return <div id="display" className="displayScreen">{this.props.currentPro}</div>
+      }
+    }; 
     
-    // Component - Calculator
+    
+    // Component - Calculator has functionality and brings together parts
     class Calculator extends React.Component{
       constructor(props) {
         super(props);
         this.state =  {
+            correntProcess : '0'
         }
       }
       render(){ 
         return(
           <div>
+            <DisplayScreen currentPro={this.state.currentProcess} />
             <Keypad />
           </div>
         )
