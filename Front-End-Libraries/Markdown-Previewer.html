@@ -21,15 +21,34 @@ Optional Bonus: My markdown previewer interprets carriage returns and renders th
 </head>
 
 <script>
+    
+    // Component - Markdown Previewer 
+    class MarkdownPreviewer extends React.Component{
+        constructor(props) {
+            super(props);
+            this.state ={
 
+            }
+        }
+        render(){ 
+            return()
+        }
+        
+    };
+    
+    // Render what the component(s) returned to the browser
+    ReactDOM.render(
+        <MarkdownPreviewer />,
+        document.getElementById('root')
+    );
+    
 </script>
 
 
 <style>
-
+   
 </style>
 
 <body>
-    <wrapper>
-    </wrapper>
+    <div id="root"></div> <!-- ReactDOM-->
 </body>
