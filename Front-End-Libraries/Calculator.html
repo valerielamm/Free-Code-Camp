@@ -42,6 +42,7 @@ Formula/Expression Logic: 32.5
             this.state =  {
             }
           }
+        
         render(){ 
             return(
                 <div>
@@ -52,7 +53,7 @@ Formula/Expression Logic: 32.5
                     <button id="one"       value='1' >1</button>
                     <button id="two"       value='2' >2</button>
                     <button id="three"     value='3' >3</button>
-                    <button id="clear"     value='C' >AC</button>
+                    <button id="clear"     value='C'   onClick={this.props.resetCalc} >AC</button>
                     <button id="four"      value='4' >4</button>
                     <button id="five"      value='5' >5</button>
                     <button id="six"       value='6' >6</button>
@@ -77,20 +78,31 @@ Formula/Expression Logic: 32.5
     
     // Component - Calculator has functionality and brings together parts
     class Calculator extends React.Component{
-      constructor(props) {
-        super(props);
-        this.state =  {
-            correntProcess : '0'
+        constructor(props) {
+            super(props);
+            this.state =  {
+                currentProcess : '0',
+                functionProcess : '0',
+                answerCalculated : '0'
+            } 
+            this.resetCalculator = this.resetCalculator.bind(this);
         }
-      }
-      render(){ 
-        return(
-          <div>
-            <DisplayScreen currentPro={this.state.currentProcess} />
-            <Keypad />
-          </div>
-        )
-      }
+        
+        resetCalculator() {
+            this.setState({
+                currentProcess : '0',
+                functionProcess : '0',
+                answerCalculated : '0'
+            });
+        }
+        render(){ 
+            return(
+                <div>
+                    <DisplayScreen currentPro={this.state.currentProcess} />
+                    <Keypad resetCalc={this.resetCalculator}/>
+                </div>
+            )
+        }
 
     };
 
