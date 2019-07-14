@@ -22,19 +22,49 @@ Optional Bonus: My markdown previewer interprets carriage returns and renders th
 
 <script>
     
+    // ALLOWS LINE BREAKS WITH RETURN BUTTON
+    marked.setOptions({
+      breaks: true,
+    });
+    
     // Component - Markdown Previewer 
     class MarkdownPreviewer extends React.Component{
         constructor(props) {
             super(props);
-            this.state ={
-
+            this.state =  {
+              markdown: placeholder
             }
         }
         render(){ 
-            return()
+            return(
+                <div> 
+                    <Editor markdown={this.state.markdown}/>
+                    <Preview  markdown={this.state.markdown}/>
+                </div>
+            )
         }
         
     };
+    
+    // Text area for typing
+    const Editor = (props) => {
+      return (
+        <textarea id="editor"
+          value={props.markdown}
+          type="text"/>
+        )
+    }
+    
+    
+    // Div that displays text from Component - Editor
+    const Preview = (props) => {
+      return (
+          <div id='preview' dangerouslySetInnerHTML={{__html: marked(props.markdown)}} />
+        )
+    }
+    
+    const placeholder = 
+          `hola`
     
     // Render what the component(s) returned to the browser
     ReactDOM.render(
@@ -46,7 +76,16 @@ Optional Bonus: My markdown previewer interprets carriage returns and renders th
 
 
 <style>
-   
+    #editor{
+        padding:2em;
+        background-color: black;
+        margin:2em;
+    }
+    #preview{
+        padding:2em;
+        background-color: black;
+        margin: 2em;
+    }
 </style>
 
 <body>
