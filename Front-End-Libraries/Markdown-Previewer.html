@@ -32,13 +32,23 @@ Optional Bonus: My markdown previewer interprets carriage returns and renders th
         constructor(props) {
             super(props);
             this.state =  {
-              markdown: placeholder
+              markdown: placeholder // temp text
             }
+            this.handleChange = this.handleChange.bind(this);
         }
+        
+        // Updates markdown when typing
+        handleChange(e) {
+            this.setState({
+              markdown: e.target.value 
+            });
+          }
+        
         render(){ 
             return(
                 <div> 
-                    <Editor markdown={this.state.markdown}/>
+                    <Editor onChange={this.handleChange} 
+                            markdown={this.state.markdown}/> 
                     <Preview  markdown={this.state.markdown}/>
                 </div>
             )
@@ -51,6 +61,7 @@ Optional Bonus: My markdown previewer interprets carriage returns and renders th
       return (
         <textarea id="editor"
           value={props.markdown}
+          onChange={props.onChange}
           type="text"/>
         )
     }
@@ -64,7 +75,39 @@ Optional Bonus: My markdown previewer interprets carriage returns and renders th
     }
     
     const placeholder = 
-          `hola`
+        `
+        When my markdown previewer first loads, the default text in the #editor field should contain valid markdown that represents at least one of each of the following elements: placeholder
+
+        # A header (H1 size) 
+
+        ## A sub header (H2 size)
+
+        A [link](https://www.freecodecamp.com)
+
+        Some inline code
+        \`<div></div>\`
+
+        A code block
+        \`\`\`
+        function testCode(x, y) {
+          if (x == y) {
+            return "testing";
+          }
+        }
+        \`\`\`
+
+        A list item
+            -A
+                -List
+                    -Item
+
+        > A blockquote
+
+        An image 
+        ![React Logo w/ Text](https://goo.gl/Umyytc)
+
+        **And bolded text**
+    `
     
     // Render what the component(s) returned to the browser
     ReactDOM.render(
@@ -78,12 +121,12 @@ Optional Bonus: My markdown previewer interprets carriage returns and renders th
 <style>
     #editor{
         padding:2em;
-        background-color: black;
+        background-color: grey;
         margin:2em;
     }
     #preview{
         padding:2em;
-        background-color: black;
+        background-color: grey;
         margin: 2em;
     }
 </style>
