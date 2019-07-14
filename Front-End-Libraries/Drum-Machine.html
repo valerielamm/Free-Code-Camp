@@ -96,6 +96,7 @@ Requirements:
         const sound = document.getElementById(this.props.keyTrigger);
         sound.currentTime = 0;
         sound.play();
+        this.props.updateDisplay(this.props.clipId);
       }
       render(){
         return (
@@ -114,6 +115,7 @@ Requirements:
       constructor(props) {
         super(props);
       }
+        
       render() {
         let theBank;
         theBank = this.props.bank.map((drumObj, i, bankArr) => {
@@ -122,7 +124,8 @@ Requirements:
               clipId={bankArr[i].id} 
               clip={bankArr[i].url}
               keyTrigger={bankArr[i].keyTrigger}
-              keyCode={bankArr[i].keyCode}/>
+              keyCode={bankArr[i].keyCode}
+              updateDisplay={this.props.updateDisplay} />
           )
         });
         return (
@@ -132,20 +135,37 @@ Requirements:
         )
       }   
     }
+    
 
     // Component - DrumMachine 
     class DrumMachine extends React.Component{
       constructor(props) {
         super(props);
         this.state =  {
-          bank: soundBank
+          bank: soundBank,
+          display: String.fromCharCode(160)
         }
+        this.displayClipName = this.displayClipName.bind(this);
       }
+        /* 
+            Display is set in DrumMachine state. This setState is pushed from here, 
+            to PadBank, to DrumPad where it is then called updateDisplay. 
+            When pressed, the button triggers updateDisplay (displayClipName)
+            with the name sent back.
+        */
+        displayClipName(name) {
+          this.setState({
+            display: name
+          });
+        }
 
       render(){ 
         return(
           <div id="drum-machine"> 
-            <PadBank bank={this.state.bank}/> 
+            <PadBank bank={this.state.bank} updateDisplay={this.displayClipName}/> 
+            <p id="display">
+                {this.state.display}
+            </p>
           </div>
         )
       }
