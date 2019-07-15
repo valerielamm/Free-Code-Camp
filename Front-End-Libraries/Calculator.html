@@ -71,7 +71,10 @@ Formula/Expression Logic: 32.5
     // Component - DisplaysScreen shows what is typed in and calculated
     class DisplayScreen extends React.Component {
       render () {
-        return <div id="display" className="displayScreen">{this.props.functionPro}</div>
+        return <div>
+            <div id="display" className="displayScreen">{this.props.currentPro}</div>
+            <div id="functionPro" className="displayScreen">{this.props.functionPro}</div>
+        </div>
       }
     }; 
     
@@ -100,7 +103,8 @@ Formula/Expression Logic: 32.5
             this.setState({
                 currentProcess : '0', // Avoids double zeros at the beginning of digits
                 functionProcess : '0', // Logs whole function
-                answerCalculated : '0' // Stores answer and carries number over to next function
+                answerCalculated : '0', // Stores answer and carries number over to next function
+                operatorEnding : false
             });
         }
         
@@ -119,19 +123,27 @@ Formula/Expression Logic: 32.5
             }
             else if (this.state.operatorEnding){
                      console.log('replace previous operator');
-                     }
+                this.setState({
+                    currentProcess : '0', 
+                    functionProcess : this.state.functionProcess.slice(0, -1) + currentValue, 
+                    operatorEnding : true
+                });
+            }
             // Adds operator user typed
             else {
                 console.log('another operator');
                 this.setState({
                     currentProcess: '0',
-                    functionProcess: this.state.functionProcess + currentValue
+                    functionProcess: this.state.functionProcess + currentValue,
+                    operatorEnding: true,
+                    decimalRestrictor: false
                 });
             }
         }
         
         // Makes sure decimal isn't typed more than once
-        decimalModerator() {
+        decimalModerator(e) {
+            let currentValue = e.target.value; // Decimal
             if(this.state.decimalRestrictor){
                 console.log('decimal ignored');
             }
@@ -150,7 +162,7 @@ Formula/Expression Logic: 32.5
             // Insert slice unused operator here...
             let answerCalculated = Math.round(1000000000000 * eval(this.state.functionProcess)) / 1000000000000;
             this.setState({
-                currentProcess : '0',
+                currentProcess : answerCalculated,
                 functionProcess : this.state.functionProcess + "=" + answerCalculated,
                 decimalRestrictor : false,
                 operatorEnding : false,
@@ -161,8 +173,17 @@ Formula/Expression Logic: 32.5
         // When user inserts number
         tapNumber(e) {
             let currentValue = e.target.value; // Number Pressed
+            // Resets calculator when number is pressed after calculation
+            if (this.state.answerCalculated != '0'){
+              this.setState({
+                  currentProcess : currentValue, 
+                  functionProcess : currentValue,
+                  answerCalculated : '0', 
+                  operatorEnding : false
+              });
+            }
             // Ignores zero when user types 0 and current state is already 0
-            if (currentValue === '0' && this.state.currentProcess ==='0'){
+            else if (currentValue === '0' && this.state.currentProcess ==='0'){
                 console.log('another useless zero');
             }
             // Replace first zero with number
@@ -196,7 +217,8 @@ Formula/Expression Logic: 32.5
         render(){ 
             return(
                 <div>
-                    <DisplayScreen functionPro={this.state.functionProcess} />
+                    <DisplayScreen functionPro={this.state.functionProcess}
+                                   currentPro={this.state.currentProcess}/>
                     <Keypad resetCalc={this.resetCalculator}
                             tapNum={this.tapNumber}
                             tapEqu={this.tapEquals}
