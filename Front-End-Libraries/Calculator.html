@@ -54,9 +54,9 @@ Formula/Expression Logic: 32.5
                     <button id="two"       value='2'   onClick={this.props.tapNum}     >2</button>
                     <button id="three"     value='3'   onClick={this.props.tapNum}     >3</button>
                     <button id="clear"     value='C'   onClick={this.props.resetCalc}  >AC</button>
-                    <button id="four"      value='4'   onClick={this.props.tapNumber}  >4</button>
-                    <button id="five"      value='5'   onClick={this.props.tapNumber}  >5</button>
-                    <button id="six"       value='6'   onClick={this.props.tapNumber}  >6</button>
+                    <button id="four"      value='4'   onClick={this.props.tapNum}  >4</button>
+                    <button id="five"      value='5'   onClick={this.props.tapNum}  >5</button>
+                    <button id="six"       value='6'   onClick={this.props.tapNum}  >6</button>
                     <button id="equals"    value='=' >=</button>
                     <button id="seven"     value='7'   onClick={this.props.tapNum}     >7</button>
                     <button id="eight"     value='8'   onClick={this.props.tapNum}     >8</button>
@@ -101,20 +101,29 @@ Formula/Expression Logic: 32.5
         }
         
         // When user inserts number
-        tapNumber(e) {
+          tapNumber(e) {
+            let currentValue = e.target.value;
             // Ignores zero when user types 0 and current state is already 0
-            if (e.target.value === 0 && this.state.currentProcess ===0){
-                console.log("another useless zero");
+            if (currentValue === '0' && this.state.currentProcess ==='0'){
+              console.log('another useless zero');
+            }
+            // Replace first zero with number
+            else if (this.state.currentProcess == '0' && this.state.currentProcess.length === 1){
+              console.log('replacing zero with number');
+              this.setState({
+                currentProcess: currentValue,
+                functionProcess: currentValue
+              });
             }
             // Adds number user typed
             else {
-                console.log("another number");
-                this.setState({
-                  currentProcess: currentProcess + e.target.value,
-                  functionProcess: functionProcess + e.target.value
-                });
+              console.log('another number');
+              this.setState({
+                currentProcess: this.state.currentProcess + currentValue,
+                functionProcess: this.state.currentFunction + currentValue
+              });
             }
-        }
+          }
         
         render(){ 
             return(
