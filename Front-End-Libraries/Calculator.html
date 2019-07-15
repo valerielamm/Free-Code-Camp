@@ -50,18 +50,18 @@ Formula/Expression Logic: 32.5
                     <button id="multiply"  value='x' >*</button>
                     <button id="subtract"  value='-' >-</button>
                     <button id="add"       value='+' >+</button>
-                    <button id="one"       value='1' >1</button>
-                    <button id="two"       value='2' >2</button>
-                    <button id="three"     value='3' >3</button>
-                    <button id="clear"     value='C'   onClick={this.props.resetCalc} >AC</button>
-                    <button id="four"      value='4' >4</button>
-                    <button id="five"      value='5' >5</button>
-                    <button id="six"       value='6' >6</button>
+                    <button id="one"       value='1'   onClick={this.props.tapNum}     >1</button>
+                    <button id="two"       value='2'   onClick={this.props.tapNum}     >2</button>
+                    <button id="three"     value='3'   onClick={this.props.tapNum}     >3</button>
+                    <button id="clear"     value='C'   onClick={this.props.resetCalc}  >AC</button>
+                    <button id="four"      value='4'   onClick={this.props.tapNumber}  >4</button>
+                    <button id="five"      value='5'   onClick={this.props.tapNumber}  >5</button>
+                    <button id="six"       value='6'   onClick={this.props.tapNumber}  >6</button>
                     <button id="equals"    value='=' >=</button>
-                    <button id="seven"     value='7' >7</button>
-                    <button id="eight"     value='8' >8</button>
-                    <button id="nine"      value='9' >9</button>
-                    <button id="zero"      value='0' >0</button>
+                    <button id="seven"     value='7'   onClick={this.props.tapNum}     >7</button>
+                    <button id="eight"     value='8'   onClick={this.props.tapNum}     >8</button>
+                    <button id="nine"      value='9'   onClick={this.props.tapNum}     >9</button>
+                    <button id="zero"      value='0'   onClick={this.props.tapNum}     >0</button>
                     <button id="decimal"   value='.' >.</button>
                 </div>
             )
@@ -83,23 +83,45 @@ Formula/Expression Logic: 32.5
             this.state =  {
                 currentProcess : '0',
                 functionProcess : '0',
-                answerCalculated : '0'
+                answerCalculated : '0',
+                decimalRestrictor : false
             } 
             this.resetCalculator = this.resetCalculator.bind(this);
+            this.tapNumber = this.tapNumber.bind(this);
         }
         
+        // Sets numbers back to 0
         resetCalculator() {
+            console.log("clear!"); 
             this.setState({
-                currentProcess : '0',
-                functionProcess : '0',
-                answerCalculated : '0'
+                currentProcess : '0', // Avoids double zeros at the beginning of digits
+                functionProcess : '0', // Logs whole function
+                answerCalculated : '0' // Stores answer and carries number over to next function
             });
         }
+        
+        // When user inserts number
+        tapNumber(e) {
+            // Ignores zero when user types 0 and current state is already 0
+            if (e.target.value === 0 && this.state.currentProcess ===0){
+                console.log("another useless zero");
+            }
+            // Adds number user typed
+            else {
+                console.log("another number");
+                this.setState({
+                  currentProcess: currentProcess + e.target.value,
+                  functionProcess: functionProcess + e.target.value
+                });
+            }
+        }
+        
         render(){ 
             return(
                 <div>
                     <DisplayScreen currentPro={this.state.currentProcess} />
-                    <Keypad resetCalc={this.resetCalculator}/>
+                    <Keypad resetCalc={this.resetCalculator}
+                            tapNum={this.tapNumber}/>
                 </div>
             )
         }
