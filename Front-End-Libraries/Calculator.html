@@ -46,18 +46,18 @@ Formula/Expression Logic: 32.5
         render(){ 
             return(
                 <div>
-                    <button id="divide"    value='/' >/</button>
-                    <button id="multiply"  value='x' >*</button>
-                    <button id="subtract"  value='-' >-</button>
-                    <button id="add"       value='+' >+</button>
+                    <button id="divide"    value='/'   onClick={this.props.tapNum}     >/</button>
+                    <button id="multiply"  value='*'   onClick={this.props.tapNum}     >*</button>
+                    <button id="subtract"  value='-'   onClick={this.props.tapNum}     >-</button>
+                    <button id="add"       value='+'   onClick={this.props.tapNum}     >+</button>
                     <button id="one"       value='1'   onClick={this.props.tapNum}     >1</button>
                     <button id="two"       value='2'   onClick={this.props.tapNum}     >2</button>
                     <button id="three"     value='3'   onClick={this.props.tapNum}     >3</button>
                     <button id="clear"     value='C'   onClick={this.props.resetCalc}  >AC</button>
-                    <button id="four"      value='4'   onClick={this.props.tapNum}  >4</button>
-                    <button id="five"      value='5'   onClick={this.props.tapNum}  >5</button>
-                    <button id="six"       value='6'   onClick={this.props.tapNum}  >6</button>
-                    <button id="equals"    value='=' >=</button>
+                    <button id="four"      value='4'   onClick={this.props.tapNum}     >4</button>
+                    <button id="five"      value='5'   onClick={this.props.tapNum}     >5</button>
+                    <button id="six"       value='6'   onClick={this.props.tapNum}     >6</button>
+                    <button id="equals"    value='='   onClick={this.props.tapEqu}     >=</button>
                     <button id="seven"     value='7'   onClick={this.props.tapNum}     >7</button>
                     <button id="eight"     value='8'   onClick={this.props.tapNum}     >8</button>
                     <button id="nine"      value='9'   onClick={this.props.tapNum}     >9</button>
@@ -84,10 +84,12 @@ Formula/Expression Logic: 32.5
                 currentProcess : '0',
                 functionProcess : '0',
                 answerCalculated : '0',
-                decimalRestrictor : false
+                decimalRestrictor : false,
+                operatorEnding : false
             } 
             this.resetCalculator = this.resetCalculator.bind(this);
             this.tapNumber = this.tapNumber.bind(this);
+            this.tapEquals = this.tapEquals.bind(this);
         }
         
         // Sets numbers back to 0
@@ -100,37 +102,51 @@ Formula/Expression Logic: 32.5
             });
         }
         
+        // When user hits equals
+        tapEquals() {
+            // Insert slice unused operator here...
+            let answerCalculated = Math.round(1000000000000 * eval(this.state.functionProcess)) / 1000000000000;
+            this.setState({
+                currentProcess : this.state.currentProcess + "=" + answerCalculated,
+                functionProcess : this.state.functionProcess + "=" + answerCalculated,
+                decimalRestrictor : false,
+                operatorEnding : false,
+                answerCalculated: answerCalculated
+            });
+          }
+        
         // When user inserts number
-          tapNumber(e) {
-            let currentValue = e.target.value;
+        tapNumber(e) {
+            let currentValue = e.target.value; // Number Pressed
             // Ignores zero when user types 0 and current state is already 0
             if (currentValue === '0' && this.state.currentProcess ==='0'){
-              console.log('another useless zero');
+                console.log('another useless zero');
             }
             // Replace first zero with number
             else if (this.state.currentProcess == '0' && this.state.currentProcess.length === 1){
-              console.log('replacing zero with number');
-              this.setState({
-                currentProcess: currentValue,
-                functionProcess: currentValue
-              });
+                console.log('replacing zero with number');
+                this.setState({
+                    currentProcess: currentValue,
+                    functionProcess: currentValue
+                });
             }
             // Adds number user typed
             else {
-              console.log('another number');
-              this.setState({
-                currentProcess: this.state.currentProcess + currentValue,
-                functionProcess: this.state.currentFunction + currentValue
-              });
+                console.log('another number');
+                this.setState({
+                    currentProcess: this.state.currentProcess + currentValue,
+                    functionProcess: this.state.functionProcess + currentValue
+                });
             }
-          }
-        
+        }
+
         render(){ 
             return(
                 <div>
                     <DisplayScreen currentPro={this.state.currentProcess} />
                     <Keypad resetCalc={this.resetCalculator}
-                            tapNum={this.tapNumber}/>
+                            tapNum={this.tapNumber}
+                            tapEqu={this.tapEquals}/>
                 </div>
             )
         }
