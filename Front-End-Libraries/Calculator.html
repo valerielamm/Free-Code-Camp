@@ -46,23 +46,23 @@ Formula/Expression Logic: 32.5
         render(){ 
             return(
                 <div>
-                    <button id="divide"    value='/'   onClick={this.props.tapNum}     >/</button>
-                    <button id="multiply"  value='*'   onClick={this.props.tapNum}     >*</button>
-                    <button id="subtract"  value='-'   onClick={this.props.tapNum}     >-</button>
-                    <button id="add"       value='+'   onClick={this.props.tapNum}     >+</button>
-                    <button id="one"       value='1'   onClick={this.props.tapNum}     >1</button>
-                    <button id="two"       value='2'   onClick={this.props.tapNum}     >2</button>
-                    <button id="three"     value='3'   onClick={this.props.tapNum}     >3</button>
-                    <button id="clear"     value='C'   onClick={this.props.resetCalc}  >AC</button>
-                    <button id="four"      value='4'   onClick={this.props.tapNum}     >4</button>
-                    <button id="five"      value='5'   onClick={this.props.tapNum}     >5</button>
-                    <button id="six"       value='6'   onClick={this.props.tapNum}     >6</button>
-                    <button id="equals"    value='='   onClick={this.props.tapEqu}     >=</button>
-                    <button id="seven"     value='7'   onClick={this.props.tapNum}     >7</button>
-                    <button id="eight"     value='8'   onClick={this.props.tapNum}     >8</button>
-                    <button id="nine"      value='9'   onClick={this.props.tapNum}     >9</button>
-                    <button id="zero"      value='0'   onClick={this.props.tapNum}     >0</button>
-                    <button id="decimal"   value='.' >.</button>
+                    <button id="divide"    value='/'   onClick={this.props.operatorMod} >/</button>
+                    <button id="multiply"  value='*'   onClick={this.props.operatorMod} >*</button>
+                    <button id="subtract"  value='-'   onClick={this.props.operatorMod} >-</button>
+                    <button id="add"       value='+'   onClick={this.props.operatorMod} >+</button>
+                    <button id="one"       value='1'   onClick={this.props.tapNum}      >1</button>
+                    <button id="two"       value='2'   onClick={this.props.tapNum}      >2</button>
+                    <button id="three"     value='3'   onClick={this.props.tapNum}      >3</button>
+                    <button id="clear"     value='C'   onClick={this.props.resetCalc}   >AC</button>
+                    <button id="four"      value='4'   onClick={this.props.tapNum}      >4</button>
+                    <button id="five"      value='5'   onClick={this.props.tapNum}      >5</button>
+                    <button id="six"       value='6'   onClick={this.props.tapNum}      >6</button>
+                    <button id="equals"    value='='   onClick={this.props.tapEqu}      >=</button>
+                    <button id="seven"     value='7'   onClick={this.props.tapNum}      >7</button>
+                    <button id="eight"     value='8'   onClick={this.props.tapNum}      >8</button>
+                    <button id="nine"      value='9'   onClick={this.props.tapNum}      >9</button>
+                    <button id="zero"      value='0'   onClick={this.props.tapNum}      >0</button>
+                    <button id="decimal"   value='.'   onClick={this.props.decimalMod}  >.</button>
                 </div>
             )
         }
@@ -71,7 +71,7 @@ Formula/Expression Logic: 32.5
     // Component - DisplaysScreen shows what is typed in and calculated
     class DisplayScreen extends React.Component {
       render () {
-        return <div id="display" className="displayScreen">{this.props.currentPro}</div>
+        return <div id="display" className="displayScreen">{this.props.functionPro}</div>
       }
     }; 
     
@@ -90,6 +90,8 @@ Formula/Expression Logic: 32.5
             this.resetCalculator = this.resetCalculator.bind(this);
             this.tapNumber = this.tapNumber.bind(this);
             this.tapEquals = this.tapEquals.bind(this);
+            this.decimalModerator = this.decimalModerator.bind(this);
+            this.operatorModerator = this.operatorModerator.bind(this);
         }
         
         // Sets numbers back to 0
@@ -102,12 +104,53 @@ Formula/Expression Logic: 32.5
             });
         }
         
+        // Makes sure operators function correctly
+        operatorModerator(e){
+            let currentValue = e.target.value; // Operator Pressed
+            let previousAnswer = this.state.answerCalculated;
+            if (previousAnswer != '0'){
+                this.setState({
+                    currentProcess : previousAnswer + currentValue, // Uses previous number in new function
+                    functionProcess : previousAnswer + currentValue, 
+                    operatorEnding : true,
+                    answerCalculated : '0', // Resets previous answer stored
+                    decimalRestrictor: false
+                });
+            }
+            else if (this.state.operatorEnding){
+                     console.log('replace previous operator');
+                     }
+            // Adds operator user typed
+            else {
+                console.log('another operator');
+                this.setState({
+                    currentProcess: '0',
+                    functionProcess: this.state.functionProcess + currentValue
+                });
+            }
+        }
+        
+        // Makes sure decimal isn't typed more than once
+        decimalModerator() {
+            if(this.state.decimalRestrictor){
+                console.log('decimal ignored');
+            }
+            else{
+                console.log('decimal entered');
+                this.setState({
+                    currentProcess: this.state.currentProcess + currentValue,
+                    functionProcess: this.state.functionProcess + currentValue,
+                    decimalRestrictor: true
+                });
+            }
+        }
+        
         // When user hits equals
         tapEquals() {
             // Insert slice unused operator here...
             let answerCalculated = Math.round(1000000000000 * eval(this.state.functionProcess)) / 1000000000000;
             this.setState({
-                currentProcess : this.state.currentProcess + "=" + answerCalculated,
+                currentProcess : '0',
                 functionProcess : this.state.functionProcess + "=" + answerCalculated,
                 decimalRestrictor : false,
                 operatorEnding : false,
@@ -123,11 +166,20 @@ Formula/Expression Logic: 32.5
                 console.log('another useless zero');
             }
             // Replace first zero with number
-            else if (this.state.currentProcess == '0' && this.state.currentProcess.length === 1){
+            else if (this.state.currentProcess == '0' && this.state.currentProcess.length === 1 && this.state.functionProcess.length === 1){
                 console.log('replacing zero with number');
                 this.setState({
                     currentProcess: currentValue,
-                    functionProcess: currentValue
+                    functionProcess: currentValue,
+                    operatorEnding : false,
+                });
+            }
+          else if (this.state.currentProcess == '0' && this.state.currentProcess.length === 1){
+                console.log('replacing zero with number');
+                this.setState({
+                    currentProcess: currentValue,
+                    functionProcess: this.state.functionProcess + currentValue,
+                    operatorEnding : false,
                 });
             }
             // Adds number user typed
@@ -135,7 +187,8 @@ Formula/Expression Logic: 32.5
                 console.log('another number');
                 this.setState({
                     currentProcess: this.state.currentProcess + currentValue,
-                    functionProcess: this.state.functionProcess + currentValue
+                    functionProcess: this.state.functionProcess + currentValue,
+                    operatorEnding : false,
                 });
             }
         }
@@ -143,10 +196,12 @@ Formula/Expression Logic: 32.5
         render(){ 
             return(
                 <div>
-                    <DisplayScreen currentPro={this.state.currentProcess} />
+                    <DisplayScreen functionPro={this.state.functionProcess} />
                     <Keypad resetCalc={this.resetCalculator}
                             tapNum={this.tapNumber}
-                            tapEqu={this.tapEquals}/>
+                            tapEqu={this.tapEquals}
+                            decimalMod={this.decimalModerator}
+                            operatorMod={this.operatorModerator}/>
                 </div>
             )
         }
@@ -159,6 +214,8 @@ Formula/Expression Logic: 32.5
       document.getElementById('root')
     );
 
+    
+    
     
 </script>
 
