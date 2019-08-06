@@ -45,12 +45,6 @@ Requirements
     
     // Component - ControlLength
     class ControlLength extends React.Component{
-        constructor(props){
-            super(props);
-            this.state = {
-                
-            }
-        }
         render(){
             return(
                 <div>
@@ -60,7 +54,7 @@ Requirements
                     <button id={this.props.minID}
                       className="btn-level" value="-" 
                       onClick={this.props.onClick}>
-                      &#8595;  <!--up arrow-->
+                      &#8595; 
                     </button>
                     <div id={this.props.lengthID} className="btn-level">
                       {this.props.length}
@@ -68,7 +62,7 @@ Requirements
                     <button id={this.props.addID}
                       className="btn-level" value="+" 
                       onClick={this.props.onClick}>
-                      &#8593; <!--down arrow-->
+                      &#8593;
                     </button>
                 </div>
             )
@@ -77,12 +71,6 @@ Requirements
     
     // Component - DisplayTime
     class DisplayTime extends React.Component{
-        constructor(props){
-            super(props);
-            this.state = {
-                
-            }
-        }
         render(){
             return(
                 <div>
@@ -93,15 +81,15 @@ Requirements
     
     // Component - PausePlayReset
     class PausePlayReset extends React.Component{
-        constructor(props){
-            super(props);
-            this.state = {
-                
-            }
-        }
         render(){
             return(
-                <div>
+                <div className="timer-control">
+                  <button id="start_stop" onClick={this.props.timerControl}>
+                    &#8214; &#x25B6; 
+                  </button>
+                  <button id="reset" onClick={this.props.reset}>
+                    &#8634;
+                  </button>
                 </div>
             )
         }
@@ -121,6 +109,8 @@ Requirements
             this.setBreakLength = this.setBreakLength.bind(this);
             this.setSessionLength = this.setSessionLength.bind(this);
             this.lengthControl = this.lengthControl.bind(this);
+            this.reset = this.reset.bind(this);
+            this.timerControl =this.timerControl.bind(this);
         }
         
         // Calls lengthControl to change break length
@@ -146,6 +136,24 @@ Requirements
               } 
             } 
         }
+        
+        timerControl() {
+            let control = this.state.timerRunning == false ? (
+              this.setState({timerRunning : true})
+            ) : (
+              this.setState({timerRunning : false})
+            );
+          }
+        
+        reset() {
+            this.setState({
+              breakLength: 5,
+              sessionLength: 25,
+              timerRunning : false,
+              toggleSessionBreak : 'session',
+              timer: 1500
+            });
+          }
 
         render(){ 
             return(
@@ -168,6 +176,10 @@ Requirements
                         title="Session Length"    
                         onClick={this.setSessionLength}
                         length={this.state.sessionLength}
+                    />
+                    <PausePlayReset
+                        timerControl = {this.timerControl}
+                        reset = {this.reset}
                     />
                 </div>
             )
