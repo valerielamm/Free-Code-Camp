@@ -4,10 +4,10 @@ Front End Libraries Projects - Build a Pomodoro Clock
 
 Requirements
 
-#1: I can see an element with id="break-label" that contains a string (e.g. "Break Length").
-#2: I can see an element with id="session-label" that contains a string (e.g. "Session Length").
-#3: I can see two clickable elements with corresponding IDs: id="break-decrement" and id="session-decrement".
-#4: I can see two clickable elements with corresponding IDs: id="break-increment" and id="session-increment".
+#1: I can see an element with id="break-label" that contains a string (e.g. "Break Length"). ***
+#2: I can see an element with id="session-label" that contains a string (e.g. "Session Length"). ***
+#3: I can see two clickable elements with corresponding IDs: id="break-decrement" and id="session-decrement". ***
+#4: I can see two clickable elements with corresponding IDs: id="break-increment" and id="session-increment". ***
 #5: I can see an element with a corresponding id="break-length", which by default (on load) displays a value of 5.
 #6: I can see an element with a corresponding id="session-length", which by default displays a value of 25.
 #7: I can see an element with a corresponding id="timer-label", that contains a string indicating a session is initialized (e.g. "Session").
@@ -43,6 +43,54 @@ Requirements
 
 <script>
     
+    // Component - ControlLength
+    class ControlLength extends React.Component{
+        constructor(props){
+            super(props);
+            this.state = {
+                
+            }
+        }
+        render(){
+            return(
+                <div>
+                </div>
+            )
+        }
+    }
+    
+    // Component - DisplayTime
+    class DisplayTime extends React.Component{
+        constructor(props){
+            super(props);
+            this.state = {
+                
+            }
+        }
+        render(){
+            return(
+                <div>
+                </div>
+            )
+        }
+    }
+    
+    // Component - PausePlayReset
+    class PausePlayReset extends React.Component{
+        constructor(props){
+            super(props);
+            this.state = {
+                
+            }
+        }
+        render(){
+            return(
+                <div>
+                </div>
+            )
+        }
+    }
+    
     // Component - Pomodoro
     class Pomodoro extends React.Component{
         constructor(props) {
@@ -55,7 +103,21 @@ Requirements
         render(){ 
             return(
                 <div>
-                    
+                    <h1>Pomodoro</h1>
+                    <ControlLength 
+                        titleID="break-label"   // #1
+                        minID="break-decrement" // #3
+                        addID="break-increment" // #4
+                        lengthID="break-length"
+                        title="Break Length"
+                    />
+                    <ControlLength 
+                        titleID="session-label"   // #2
+                        minID="session-decrement" // #3
+                        addID="session-increment" // #4
+                        lengthID="session-length"
+                        title="Session Length"
+                    />
                 </div>
             )
         }
