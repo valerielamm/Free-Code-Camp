@@ -8,19 +8,19 @@ Requirements
 #2: I can see an element with id="session-label" that contains a string (e.g. "Session Length"). ***
 #3: I can see two clickable elements with corresponding IDs: id="break-decrement" and id="session-decrement". ***
 #4: I can see two clickable elements with corresponding IDs: id="break-increment" and id="session-increment". ***
-#5: I can see an element with a corresponding id="break-length", which by default (on load) displays a value of 5.
-#6: I can see an element with a corresponding id="session-length", which by default displays a value of 25.
+#5: I can see an element with a corresponding id="break-length", which by default (on load) displays a value of 5. ***
+#6: I can see an element with a corresponding id="session-length", which by default displays a value of 25. ***
 #7: I can see an element with a corresponding id="timer-label", that contains a string indicating a session is initialized (e.g. "Session").
 #8: I can see an element with corresponding id="time-left". NOTE: Paused or running, the value in this field should always be displayed in mm:ss format (i.e. 25:00).
 #9: I can see a clickable element with a corresponding id="start_stop".
 #10: I can see a clickable element with a corresponding id="reset".
 #11: When I click the element with the id of reset, any running timer should be stopped, the value within id="break-length" should return to 5, the value within id="session-length" should return to 25, and the element with id="time-left" should reset to it's default state.
-#12: When I click the element with the id of break-decrement, the value within id="break-length" decrements by a value of 1, and I can see the updated value.
-#13: When I click the element with the id of break-increment, the value within id="break-length" increments by a value of 1, and I can see the updated value.
-#14: When I click the element with the id of session-decrement, the value within id="session-length" decrements by a value of 1, and I can see the updated value.
-#15: When I click the element with the id of session-increment, the value within id="session-length" increments by a value of 1, and I can see the updated value.
-#16: I should not be able to set a session or break length to <= 0.
-#17: I should not be able to set a session or break length to > 60.
+#12: When I click the element with the id of break-decrement, the value within id="break-length" decrements by a value of 1, and I can see the updated value. ***
+#13: When I click the element with the id of break-increment, the value within id="break-length" increments by a value of 1, and I can see the updated value. ***
+#14: When I click the element with the id of session-decrement, the value within id="session-length" decrements by a value of 1, and I can see the updated value. ***
+#15: When I click the element with the id of session-increment, the value within id="session-length" increments by a value of 1, and I can see the updated value. ***
+#16: I should not be able to set a session or break length to <= 0. ***
+#17: I should not be able to set a session or break length to > 60. ***
 #18: When I first click the element with id="start_stop", the timer should begin running from the value currently displayed in id="session-length", even if the value has been incremented or decremented from the original value of 25.
 #19: If the timer is running, the element with the id of time-left should display the remaining time in mm:ss format (decrementing by a value of 1 and updating the display every 1000ms).
 #20: If the timer is running and I click the element with id="start_stop", the countdown should pause.
@@ -54,6 +54,22 @@ Requirements
         render(){
             return(
                 <div>
+                    <h5 id={this.props.titleID}>
+                      {this.props.title}
+                    </h5>
+                    <button id={this.props.minID}
+                      className="btn-level" value="-" 
+                      onClick={this.props.onClick}>
+                      &#8595;  <!--up arrow-->
+                    </button>
+                    <div id={this.props.lengthID} className="btn-level">
+                      {this.props.length}
+                    </div>
+                    <button id={this.props.addID}
+                      className="btn-level" value="+" 
+                      onClick={this.props.onClick}>
+                      &#8593; <!--down arrow-->
+                    </button>
                 </div>
             )
         }
@@ -96,27 +112,62 @@ Requirements
         constructor(props) {
             super(props);
             this.state =  {
+                breakLength: 5,
+                sessionLength: 25,
+                timer : 1500,
+                timerRunning : false,
+                toggleSessionBreak : 'session'
             } 
+            this.setBreakLength = this.setBreakLength.bind(this);
+            this.setSessionLength = this.setSessionLength.bind(this);
+            this.lengthControl = this.lengthControl.bind(this);
         }
         
+        // Calls lengthControl to change break length
+        setBreakLength(e){
+            this.lengthControl('breakLength', e.currentTarget.value, 
+            this.state.breakLength);
+        }
+        
+        // Calls lengthControl to change session length
+        setSessionLength(e){
+            this.lengthControl('sessionLength', e.currentTarget.value, 
+            this.state.sessionLength);
+        }
+        
+        // Takes current break or session value and then adds or substracts one within the range of 1-60
+        lengthControl(stateToChange, sign, currentLength){
+            if (this.state.timerRunning == true) return; // Can't change time while timer is running
+            else {
+              if (sign == "-" && currentLength != 1 ) {
+                this.setState({[stateToChange]: currentLength - 1});
+              } else if (sign == "+" && currentLength != 60) {
+                this.setState({[stateToChange]: currentLength + 1});
+              } 
+            } 
+        }
 
         render(){ 
             return(
                 <div>
                     <h1>Pomodoro</h1>
                     <ControlLength 
-                        titleID="break-label"   // #1
-                        minID="break-decrement" // #3
-                        addID="break-increment" // #4
+                        titleID="break-label"   
+                        minID="break-decrement" 
+                        addID="break-increment" 
                         lengthID="break-length"
-                        title="Break Length"
+                        title="Break Length"    
+                        onClick={this.setBreakLength}
+                        length={this.state.breakLength}
                     />
                     <ControlLength 
-                        titleID="session-label"   // #2
-                        minID="session-decrement" // #3
-                        addID="session-increment" // #4
+                        titleID="session-label"   
+                        minID="session-decrement" 
+                        addID="session-increment"
                         lengthID="session-length"
-                        title="Session Length"
+                        title="Session Length"    
+                        onClick={this.setSessionLength}
+                        length={this.state.sessionLength}
                     />
                 </div>
             )
