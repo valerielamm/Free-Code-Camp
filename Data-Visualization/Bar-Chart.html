@@ -20,6 +20,7 @@ Requirements
 #13: My tooltip should have a data-date property that corresponds to the data-date of the active area.
 
 Here is the dataset you will need to complete this project: https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json
+
 -->
 
 <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
@@ -35,11 +36,64 @@ Here is the dataset you will need to complete this project: https://raw.githubus
     
     <body>
     
+        <div class='graph-box'>
+            <h3 id='title'>GDP</h3>
+            <div class='graph'></div>
+        </div>
+        
     </body>
 </html>
 
 <style>
+    * {
+        margin: 0;
+        padding: 0; 
+    }
+    .main {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: grey; 
+    }
+    h3{
+        text-align:center;
+        font-weight:bold;
+        font-size:3em;
+        font-family: helvetica, sans-serif;
+    }
+    .graph-box {
+        height: 560px;
+        width: 900px;
+        background-color: #fff;
+        padding: 20px 20px 20px 20px;
+    }
+    .graph{
+        padding:20px;
+    }
+
 </style>
 
 <script>
+/*
+    Requirement:
+    https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js
+*/
+    
+    const width = 800,
+        height = 400,
+        barWidth = 2;
+
+    // Sets size of chart
+    var svgContainer =  d3.select('.graph')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
+    
+    // Grabs JSON data for chart
+    d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json', function(err, data) {
+    
+    });
+    
 </script>
