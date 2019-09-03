@@ -93,7 +93,58 @@ Here is the dataset you will need to complete this project: https://raw.githubus
     
     // Grabs JSON data for chart
     d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json', function(err, data) {
-    
+        
+        // Grab all the years
+        var yearsDate = data.data.map(function(item) {
+            return new Date(item[0]);
+        });
+        
+        // Get min and max to scale the years proportionally across x axis 
+        var xMax = new Date(d3.max(yearsDate));
+        xMax.setMonth(xMax.getMonth() + 3);
+        var xScale = d3.scaleTime()
+            .domain([d3.min(yearsDate), xMax])
+            .range([0, width]);
+
+        // Grab all of the GDP numbers
+        var GDP = data.data.map(function(item) {
+            return item[1]
+        });
+
+        var scaledGDP = [];
+        
+        // Get min and max to scale the GPD proportionally across y axis
+        var gdpMin = d3.min(GDP);
+        var gdpMax = d3.max(GDP);
+
+        var linearScale = d3.scaleLinear()
+            .domain([0, gdpMax])
+            .range([0, height]);
+
+        scaledGDP = GDP.map(function(item) {
+            return linearScale(item);
+        });
+
+        var yAxisScale = d3.scaleLinear()
+            .domain([0, gdpMax])
+            .range([height, 0]);
+
+        // Make rectangles for each bar on the graph
+        d3.select('svg').selectAll('rect')
+            .data(scaledGDP)
+            .enter() // Cycles through all data
+            .append('rect') 
+            .attr('class', 'bar')
+            .attr('x', function(d, i) {
+                return xScale(yearsDate[i]);
+            })
+            .attr('y', function(d, i) {
+                return height - d; // Makes it right side up
+            })
+            .attr('width', barWidth) // Set width
+            .attr('height', function(d) {
+                return d; // Length of bar
+            })
     });
     
 </script>
