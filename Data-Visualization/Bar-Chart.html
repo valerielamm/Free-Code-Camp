@@ -88,8 +88,8 @@ Here is the dataset you will need to complete this project: https://raw.githubus
     // Sets size of chart
     var svgContainer =  d3.select('.graph')
         .append('svg')
-        .attr('width', width)
-        .attr('height', height);
+        .attr('width', width + 100) // Add space for axes labels
+        .attr('height', height + 60);
     
     // Grabs JSON data for chart
     d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json', function(err, data) {
@@ -105,6 +105,15 @@ Here is the dataset you will need to complete this project: https://raw.githubus
         var xScale = d3.scaleTime()
             .domain([d3.min(yearsDate), xMax])
             .range([0, width]);
+        
+        // X axis line and labels
+        var xAxis = d3.axisBottom()
+            .scale(xScale);
+
+        var xAxisGroup = svgContainer.append('g')
+            .call(xAxis)
+            .attr('id', 'x-axis')
+            .attr('transform', 'translate(60, 400)');
 
         // Grab all of the GDP numbers
         var GDP = data.data.map(function(item) {
@@ -128,6 +137,14 @@ Here is the dataset you will need to complete this project: https://raw.githubus
         var yAxisScale = d3.scaleLinear()
             .domain([0, gdpMax])
             .range([height, 0]);
+        
+        // Y axis line and labels
+        var yAxis = d3.axisLeft(yAxisScale)
+
+        var yAxisGroup = svgContainer.append('g')
+            .call(yAxis)
+            .attr('id', 'y-axis')
+            .attr('transform', 'translate(60, 0)');
 
         // Make rectangles for each bar on the graph
         d3.select('svg').selectAll('rect')
@@ -145,6 +162,7 @@ Here is the dataset you will need to complete this project: https://raw.githubus
             .attr('height', function(d) {
                 return d; // Length of bar
             })
+            .attr('transform', 'translate(60, 0)') // Lines up graph with lines
     });
     
 </script>
