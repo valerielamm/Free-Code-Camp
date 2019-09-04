@@ -55,9 +55,10 @@ Here is the dataset you will need to complete this project: https://raw.githubus
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: grey; 
+        background-color: grey;
+        position: absolute;
     }
-    h3{
+    h3 {
         text-align:center;
         font-weight:bold;
         font-size:3em;
@@ -68,12 +69,29 @@ Here is the dataset you will need to complete this project: https://raw.githubus
         width: 900px;
         background-color: #fff;
         padding: 20px 20px 20px 20px;
+        position: absolute;
     }
-    .graph{
+    .graph {
         padding:20px;
+        position: absolute;
     }
-    .graph svg{
+    .graph svg {
       overflow:visible;
+    }
+    #tooltip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        text-align: center;
+        width: 150px;
+        height: 50px;
+        padding: 2px;
+        font: 12px;
+        background: lightsteelblue;
+        box-shadow: 1px 1px 10px;
+        border-radius: 2px;
+        pointer-events: none; 
     }
 
 </style>
@@ -84,10 +102,22 @@ Here is the dataset you will need to complete this project: https://raw.githubus
     https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js
 */
     
+    // Chart Width
     const width = 800,
         height = 400,
-        barWidth = 2;
+        barWidth = width/275; // Number of items in data...
 
+    // Pop up data in box
+    var tooltip = d3.select(".graph").append("div")
+        .attr("id", "tooltip")
+        .style("opacity", 0);
+
+    // Highlights bar when hovered over
+    var overlay = d3.select('.graph').append('div')
+        .attr('class', 'overlay')
+        .style('opacity', 0);
+
+    
     // Sets size of chart
     var svgContainer =  d3.select('.graph')
         .append('svg')
@@ -96,6 +126,27 @@ Here is the dataset you will need to complete this project: https://raw.githubus
     
     // Grabs JSON data for chart
     d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json', function(err, data) {
+        
+        // Gets year and quarter for tooltip
+        var years = data.data.map(function(item) {
+            var quarter;
+            var temp = item[0].substring(5, 7);
+
+            if(temp === '01') {
+                quarter = 'Q1';
+            }
+            else if (temp === '04'){
+                quarter = 'Q2';
+            }
+            else if(temp === '07') {
+                quarter = 'Q3';
+            }
+            else if(temp ==='10') {
+                quarter = 'Q4';
+            }
+
+            return item[0].substring(0, 4) + ' ' + quarter
+        });
         
         // Grab all the years
         var yearsDate = data.data.map(function(item) {
@@ -166,6 +217,35 @@ Here is the dataset you will need to complete this project: https://raw.githubus
                 return d; // Length of bar
             })
             .attr('transform', 'translate(60, 0)') // Lines up graph with lines
+            .on('mouseover', function(d, i) { 
+                overlay.transition() // Shows overlay ontop of bar
+                    .duration(0)
+                    .style('height', d + 'px')
+                    .style('width', barWidth + 'px')
+                    .style('opacity', .9)
+                    .style('left', (i * barWidth) + 20 + 'px') // Add 20 because padding
+                    .style('top', height +20 - d + 'px')       // Add 20 because padding
+                    .style('transform', 'translateX(60px)');
+            
+                tooltip.transition()
+                    .duration(200) // Uncovers tooltip 
+                    .style('opacity', .9);
+                
+                tooltip.html(years[i] + '<br>' + '$' + GDP[i].toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + ' Billion')
+                    .attr('data-date', data.data[i][0]) 
+                    .style('left', (i * barWidth) + 30 + 'px')
+                    .style('top', height - 100 + 'px')
+                    .style('transform', 'translateX(60px)');
+            })
+            .on('mouseout', function(d) {
+                tooltip.transition() // Hides tooltip
+                    .duration(200)
+                    .style('opacity', 0);
+            
+                overlay.transition()
+                    .duration(200) // Fades away highlight
+                    .style('opacity', 0);
+            });
     });
     
 </script>
