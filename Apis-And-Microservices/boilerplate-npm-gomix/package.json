@@ -15,5 +15,10 @@
 		"url": "https://idontknow/todo.git"
 	},
     "author": "Valerie Lamm",
-    "description": "A project that does something awesome"
+    "description": "A project that does something awesome",
+	"keywords": [
+		"descriptive",
+		"related",
+		"freecodecamp"
+	]
 }
