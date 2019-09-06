@@ -16,6 +16,7 @@
 	},
     "author": "Valerie Lamm",
     "description": "A project that does something awesome",
+    "license": "MIT",
 	"keywords": [
 		"descriptive",
 		"related",
