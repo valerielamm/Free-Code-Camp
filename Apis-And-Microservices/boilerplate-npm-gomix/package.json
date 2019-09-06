@@ -14,5 +14,6 @@
 		"type": "git",
 		"url": "https://idontknow/todo.git"
 	},
-    "author": "Valerie Lamm"
+    "author": "Valerie Lamm",
+    "description": "A project that does something awesome"
 }
