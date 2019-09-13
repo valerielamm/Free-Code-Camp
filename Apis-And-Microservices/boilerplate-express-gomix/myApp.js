@@ -76,7 +76,12 @@ app.get("/name", function(req, res) {
 
 
 /** 12) Get data form POST  */
-
+//<input type="text" name="first" value="John"> example of what you're grabbing from
+//Test if your endpoint works using the html form we provided in the app frontpage.
+app.post("/name", (req, res) => {
+  let returning = {name: req.body.first + ' ' + req.body.last };
+  res.json(returning);
+});
 
 
 // This would be part of the basic setup of an Express app
