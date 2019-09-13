@@ -46,7 +46,12 @@ app.get('/json', (req, res) => {
  
 /** 7) Root-level Middleware - A logger */
 //  place it before all the routes !
-
+app.get('/now', function(req, res, next) {
+req.time = new Date().toString(); // Hypothetical synchronous operation
+next();
+}, function(req, res) {
+res.send({time: req.time});
+})
 
 /** 8) Chaining middleware. A Time server */
 
